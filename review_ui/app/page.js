@@ -22,6 +22,8 @@ export default function Page() {
             <GoogleLogin
               onSuccess={credentialResponse => {
                 router.push("/dashboard")
+                localStorage.setItem("user", credentialResponse.credential) 
+                
               }}
               onError={() => {
                 console.log('Login Failed');
