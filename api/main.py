@@ -1,7 +1,7 @@
 import tempfile
 
 from typing import Annotated
-
+from pydantic import BaseModel
 from fastapi import FastAPI, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -35,3 +35,23 @@ async def review(term: Annotated[str, Form()], file: UploadFile):
     exercises_content = await exercise_agent.run(review_content)
     
     return {"term": term, "review_content": review_content, "exercises_content":exercises_content}
+
+class BodyRequest(BaseModel):
+    token: str
+
+@app.get("/review_files/")
+async def review_files(token: str):
+    
+    lista = [
+        {
+            "id": '12',
+            "name": "Jonas",
+            "link": "link"
+        },
+        {
+            "id": '13',
+            "name": "Jonas",
+            "link": "link"
+        }
+    ]
+    return {"token":token, "files":lista}
