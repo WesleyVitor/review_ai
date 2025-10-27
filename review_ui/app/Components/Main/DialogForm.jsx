@@ -13,26 +13,39 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-export default function DialogForm() {
 
+
+export default function DialogForm() {
+    const [open, setOpen] = useState(false)
     const fileRef = useRef(null);
     const [subject, setSubject] = useState("");
-
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: async (formData) => {
-            const url = "http://localhost:8000/review/"
+            const url = "http://localhost:8000/review/add"
             const response = await fetch(url, {
                 method: "POST",
-                body: formData
+                body: formData,
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
             });
             if (!response.ok) {
                 throw new Error("erro!");
             }
-            console.log(response.json());
+            
+            
             return response.json();
-        }
+        },
+        onSuccess: (data) => {
+            setOpen(false)
+            queryClient.invalidateQueries({ queryKey: ['reviews'] });
+        },
+        onError: (error) => {
+            console.error("Erro ao add:", error);
+        },
     });
 
     const handleSubmit = (e) => {
@@ -46,7 +59,7 @@ export default function DialogForm() {
     }
 
     return (
-        <Dialog >
+        <Dialog open={open} onOpenChange={setOpen}>
             <form id="review-form"  onSubmit={handleSubmit}>
                 <DialogTrigger asChild className="cursor-pointer">
                     <Button variant="outline">Generate Review</Button>

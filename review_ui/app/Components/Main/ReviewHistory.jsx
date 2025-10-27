@@ -17,6 +17,7 @@ export default function ReviewHistory(params) {
             if (!res.ok) throw new Error('Erro ao buscar usuários')
             return res.json()
         },
+        refetchOnMount: "always"
     })
     
     return (
@@ -27,6 +28,9 @@ export default function ReviewHistory(params) {
                         Name
                     </TableHead>
                     <TableHead>
+                        Review Type
+                    </TableHead>
+                    <TableHead>
                         Actions
                     </TableHead>
 
@@ -35,11 +39,14 @@ export default function ReviewHistory(params) {
             <TableBody>
 
                 {
-                    data?.files?.map(({ id, name, link }) => {
+                    data?.files?.map(({ id, name, link, review_type }) => {
                         return (
                             <TableRow key={id}>
                                 <TableCell>
                                     {name}
+                                </TableCell>
+                                <TableCell>
+                                    {review_type}
                                 </TableCell>
                                 <TableCell>
                                     <Button className="cursor-pointer" variant="outline">
