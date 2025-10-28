@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
+import { Spinner } from "@/components/ui/spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
@@ -86,7 +86,7 @@ export default function DialogForm() {
                         <DialogClose asChild>
                             <Button variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button form="review-form" type="submit">Generate</Button>
+                        <Button form="review-form" disabled={mutation.isPending} type="submit">{mutation.isPending ? <Spinner/> : "Generate"}</Button>
                     </DialogFooter>
                 </DialogContent>
             </form>

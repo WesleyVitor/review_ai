@@ -10,10 +10,15 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 
-from fastapi.security import HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.responses import JSONResponse
 
-from main import SECRET_KEY, security
+
+from fastapi import Security
+
+security = HTTPBearer()
+
+SECRET_KEY = os.getenv("SECRET_KEY", "sua-chave-super-secreta")
 
 def verify_google_token(token):
     

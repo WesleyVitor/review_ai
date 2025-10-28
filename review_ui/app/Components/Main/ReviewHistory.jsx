@@ -50,7 +50,7 @@ export default function ReviewHistory(params) {
                                 </TableCell>
                                 <TableCell>
                                     <Button className="cursor-pointer" variant="outline">
-                                        <a href={link}>Download</a>
+                                        <a target="_blank" href={link}>Download</a>
                                     </Button>
                                 </TableCell>
                             </TableRow>
