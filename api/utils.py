@@ -1,11 +1,20 @@
 import os
+import jwt
+import io
+import boto3
+
 from google.oauth2 import id_token
 from google.auth.transport import requests
-import boto3
-import io
+
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
+
+from fastapi.security import HTTPAuthorizationCredentials
+from fastapi.responses import JSONResponse
+
+from main import SECRET_KEY, security
+
 def verify_google_token(token):
     
     try:
@@ -52,3 +61,13 @@ def delete_file_on_cloudflare_r2(filename):
 
     )
     s3.delete_object(Bucket=os.getenv("BUCKET_NAME"), Key=f"review/uploads/{filename}.pdf")
+
+def verify_jwt(credentials: HTTPAuthorizationCredentials = Security(security)):
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return JSONResponse({"err":"Token expired"}, 401)
+    except jwt.InvalidTokenError:
+        return JSONResponse({"err":"Token invalid"}, 403)
