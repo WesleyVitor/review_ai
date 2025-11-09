@@ -25,14 +25,19 @@ create the database
 python api/database.py 
 ```
 
-execute the server 
+create .env file and add your OPENAI_API_KEY key
+```bash
+echo 'OPENAI_API_KEY="sk-1234-abc"' >> .env
 ```
+
+execute the server 
+```bash
 cd api
 uvicorn main:app --reload
 ```
 
 execute the ui code
-```
+```bash
 cd review_ui
 npm run dev
 ```
