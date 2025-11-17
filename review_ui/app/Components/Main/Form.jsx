@@ -4,13 +4,15 @@ import {Paperclip} from "lucide-react";
 
 import {useRef, useState} from "react";
 
+const HOST = process.env.NEXT_PUBLIC_HOST_API;
+
 export default function Form(params) {
     const fileRef = useRef(null);
     const [subject, setSubject ] = useState("");
 
     const mutation = useMutation({
         mutationFn: async (formData)=>{
-            const url = "http://localhost:8000/review/"
+            const url = `${HOST}/review/`
             const response = await fetch(url, {
                 method:"POST",
                 body:formData

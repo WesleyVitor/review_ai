@@ -16,6 +16,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 
+const HOST = process.env.NEXT_PUBLIC_HOST_API;
 
 export default function DialogForm() {
     const [open, setOpen] = useState(false)
@@ -24,7 +25,7 @@ export default function DialogForm() {
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: async (formData) => {
-            const url = "http://localhost:8000/review/add"
+            const url = `${HOST}/review/add`
             const response = await fetch(url, {
                 method: "POST",
                 body: formData,

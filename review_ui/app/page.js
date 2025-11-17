@@ -8,13 +8,13 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Aside from "./Components/Aside/Aside";
 import { useMutation } from "@tanstack/react-query";
 const client = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-
+const HOST = process.env.NEXT_PUBLIC_HOST_API;
 export default function Page() {
   const isMobile = useIsMobile()
   const router = useRouter();
   const mutation = useMutation({
     mutationFn: async (formData) => {
-      const url = "http://localhost:8000/auth/google";
+      const url = `${HOST}/auth/google`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
